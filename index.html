@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFlow Solutions - Login</title>
+    <style>
+        :root {
+            --critical: #ff4444;
+            --high: #ffaa00;
+            --medium: #44aaff;
+            --low: #00aa44;
+            --primary: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .login-title {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .demo-credentials {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .demo-credentials strong {
+            color: var(--primary);
+        }
+        
+        /* Dashboard Styles - Hidden by default */
+        .dashboard {
+            display: none;
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid #ddd;
+            padding: 0 20px;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .tab:hover {
+            background: #f8f9fa;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            background: white;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .ticket {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+        
+        .ticket:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .critical { border-left: 6px solid var(--critical); background: #ffeaea; }
+        .high { border-left: 6px solid var(--high); background: #fff4e6; }
+        .medium { border-left: 6px solid var(--medium); background: #e6f2ff; }
+        .low { border-left: 6px solid var(--low); background: #e6ffe6; }
+        
+        .filters {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .filter-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        /* Enhanced FAQ Styles */
+        .faq-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .faq-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .faq-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .faq-search {
+            margin: 30px 0;
+            position: relative;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .faq-search input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+        
+        .faq-search::before {
+            content: "🔍";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #6c757d;
+        }
+        
+        .faq-category {
+            margin: 40px 0;
+            padding: 0;
+        }
+        
+        .faq-category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .faq-category-header h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .faq-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .faq-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+        
+        .faq-question::after {
+            content: "▶";
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            color: #6c757d;
+        }
+        
+        .faq-item.active .faq-question::after {
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            background: #fdfdfd;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 2000px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .faq-answer-content {
+            line-height: 1.7;
+            color: #495057;
+        }
+        
+        .faq-answer-content strong {
+            color: var(--primary);
+        }
+        
+        .faq-answer-content ul, 
+        .faq-answer-content ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        .faq-answer-content li {
+            margin: 8px 0;
+        }
+        
+        .faq-answer-content br {
+            margin-bottom: 10px;
+        }
+        
+        .faq-no-results {
+            text-align: center;
+            padding: 60px 40px;
+            color: #6c757d;
+            font-style: italic;
+            font-size: 18px;
+        }
+        
+        .severity-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .critical-badge { background: var(--critical); }
+        .high-badge { background: var(--high); }
+        .medium-badge { background: var(--medium); }
+        .low-badge { background: var(--low); }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-open { background: #ffeaa7; color: #d35400; }
+        .status-in-progress { background: #74b9ff; color: #0984e3; }
+        .status-closed { background: #55efc4; color: #00b894; }
+        
+        .search-box {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        .export-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .contact-support {
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .contact-support h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .contact-support p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-logo">🏢</div>
+        <h1 class="login-title">TechFlow Solutions</h1>
+        <p class="login-subtitle">Support Dashboard Login</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Login to Dashboard</button>
+        </form>
+        
+        <div class="demo-credentials">
+            <strong>Demo Login:</strong> Any username/password combination will work
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden by default) -->
+    <div id="dashboard" class="dashboard">
+        <header>
+            <div class="header-content">
+                <div class="logo">🏢 TechFlow Solutions - Support Dashboard</div>
+                <div class="user-info">
+                    <span>Welcome, <span id="currentUser">User</span></span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">📊 Ticket Dashboard</button>
+            <button class="tab" onclick="switchTab('create')">➕ Create Ticket</button>
+            <button class="tab" onclick="switchTab('faq')">❓ FAQs</button>
+            <button class="tab" onclick="switchTab('reports')">📈 Reports</button>
+        </div>
+
+        <div class="container">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content active">
+                <h2>Ticket Dashboard</h2>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div>Total Tickets</div>
+                        <div class="stat-number" id="totalTickets">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Open Tickets</div>
+                        <div class="stat-number" id="openTickets">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Critical Issues</div>
+                        <div class="stat-number" id="criticalTickets">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Resolution Rate</div>
+                        <div class="stat-number" id="resolutionRate">0%</div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <input type="text" class="search-box" id="searchTickets" placeholder="🔍 Search tickets..." onkeyup="searchTickets()">
+                    
+                    <h3>Filter by Severity:</h3>
+                    <button class="filter-btn active" onclick="filterTickets('all')">All Tickets</button>
+                    <button class="filter-btn" onclick="filterTickets('Critical')">Critical</button>
+                    <button class="filter-btn" onclick="filterTickets('High')">High</button>
+                    <button class="filter-btn" onclick="filterTickets('Medium')">Medium</button>
+                    <button class="filter-btn" onclick="filterTickets('Low')">Low</button>
+                    
+                    <h3 style="margin-top: 15px;">Filter by Status:</h3>
+                    <button class="filter-btn" onclick="filterByStatus('all')">All</button>
+                    <button class="filter-btn" onclick="filterByStatus('Open')">Open</button>
+                    <button class="filter-btn" onclick="filterByStatus('In Progress')">In Progress</button>
+                    <button class="filter-btn" onclick="filterByStatus('Closed')">Closed</button>
+                    
+                    <div style="margin-top: 15px;">
+                        <button class="btn btn-success" onclick="exportTicketsToCSV()">📥 Export to CSV</button>
+                        <button class="btn btn-info" onclick="showImportModal()">📤 Import Tickets</button>
+                    </div>
+                </div>
+
+                <div id="ticketContainer">
+                    <!-- Tickets will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Create Ticket Tab -->
+            <div id="create" class="tab-content">
+                <h2>Create New Support Ticket</h2>
+                <form id="ticketForm">
+                    <div class="form-group">
+                        <label for="description">Issue Description *</label>
+                        <input type="text" id="description" placeholder="Briefly describe the issue..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" required>
+                            <option value="">Select a category</option>
+                            <option value="Login Issues">Login Issues</option>
+                            <option value="Permissions">Permissions</option>
+                            <option value="Software">Software (CRM)</option>
+                            <option value="Connectivity">Connectivity</option>
+                            <option value="Hardware">Hardware</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="severity">Severity Level *</label>
+                        <select id="severity" required>
+                            <option value="">Select severity</option>
+                            <option value="Low">Low - Minor issue, workaround available</option>
+                            <option value="Medium">Medium - Important but not urgent</option>
+                            <option value="High">High - Major impact on work</option>
+                            <option value="Critical">Critical - System down or data loss</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" placeholder="Any additional details, error messages, or steps to reproduce..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Create Ticket</button>
+                </form>
+            </div>
+
+            <!-- FAQ Tab -->
+            <div id="faq" class="tab-content">
+                <div class="faq-header">
+                    <h2>TechFlow Knowledge Base</h2>
+                    <p>Click on any question below to view the detailed answer</p>
+                </div>
+                
+                <div class="faq-search">
+                    <input type="text" id="faqSearch" placeholder="Search FAQs..." onkeyup="searchFAQs()">
+                </div>
+
+                <div id="faqContainer">
+                    <!-- FAQs will be dynamically loaded here -->
+                </div>
+
+                <div class="contact-support">
+                    <h3>📞 Contact Support</h3>
+                    <p><strong>Email:</strong> support@techflowsolutions.com</p>
+                    <p><strong>Phone:</strong> +1 (555) 123-HELP</p>
+                    <p><strong>Hours:</strong> Mon-Fri 8:00 AM - 6:00 PM EST</p>
+                    <p><strong>Emergency After Hours:</strong> Call and follow prompts for critical system outages</p>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <h2>📈 Support Reports & Analytics</h2>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div>Tickets by Category</div>
+                        <div class="stat-number" id="loginTickets">0</div>
+                        <small>Login Issues</small>
+                    </div>
+                    <div class="stat-card">
+                        <div>Tickets by Category</div>
+                        <div class="stat-number" id="softwareTickets">0</div>
+                        <small>Software</small>
+                    </div>
+                    <div class="stat-card">
+                        <div>Tickets by Category</div>
+                        <div class="stat-number" id="hardwareTickets">0</div>
+                        <small>Hardware</small>
+                    </div>
+                    <div class="stat-card">
+                        <div>Tickets by Category</div>
+                        <div class="stat-number" id="connectivityTickets">0</div>
+                        <small>Connectivity</small>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3>Resolution Rate</h3>
+                    <div style="background: #ecf0f1; height: 30px; border-radius: 15px; margin: 10px 0;">
+                        <div id="resolutionBar" style="background: #27ae60; height: 100%; border-radius: 15px; width: 0%; transition: width 1s ease;"></div>
+                    </div>
+                    <p id="resolutionText">Calculating resolution rate...</p>
+                </div>
+
+                <div class="export-section">
+                    <h3>Data Export</h3>
+                    <p>Export your ticket data for analysis or backup:</p>
+                    <button class="btn btn-success" onclick="exportTicketsToCSV()">📥 Export Tickets to CSV</button>
+                    <button class="btn btn-info" onclick="exportReportsToPDF()" style="margin-left: 10px;">📊 Export Report to PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div id="noteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Note to Ticket</h3>
+                    <span class="close" onclick="closeModal('noteModal')">&times;</span>
+                </div>
+                <div class="form-group">
+                    <label for="noteText">Additional Notes:</label>
+                    <textarea id="noteText" placeholder="Enter additional notes..."></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="saveNote()">Save Note</button>
+                <button class="btn" onclick="closeModal('noteModal')" style="margin-left: 10px;">Cancel</button>
+            </div>
+        </div>
+
+        <div id="importModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Import Tickets from CSV</h3>
+                    <span class="close" onclick="closeModal('importModal')">&times;</span>
+                </div>
+                <div class="form-group">
+                    <label for="csvFile">Select CSV File:</label>
+                    <input type="file" id="csvFile" accept=".csv">
+                </div>
+                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                    CSV should have columns: Ticket ID, Description, Category, Severity, Assigned Tier, Status, Notes
+                </p>
+                <button class="btn btn-primary" onclick="importTicketsFromCSV()">Import Tickets</button>
+                <button class="btn" onclick="closeModal('importModal')" style="margin-left: 10px;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete FAQ Data
+        const faqData = [
+            {
+                category: "Accounts",
+                icon: "🔐",
+                items: [
+                    {
+                        question: "Password Reset",
+                        answer: "To reset your password:<br><br><strong>Steps:</strong><ul><li>Go to the login page and click 'Forgot Password'</li><li>Enter your registered email address</li><li>Check your email for the reset link (check spam folder if not received within 5 minutes)</li><li>Click the link and create a new password</li><li>Password must be at least 8 characters with uppercase, lowercase, and numbers</li></ul><br><strong>Note:</strong> If you don't receive the email, contact support immediately."
+                    },
+                    {
+                        question: "Account Locked",
+                        answer: "If your account is locked due to multiple failed login attempts:<br><br><strong>Automatic Unlock:</strong> Account automatically unlocks after 30 minutes<br><strong>Manual Unlock:</strong> Contact IT support with your employee ID<br><strong>Prevention:</strong> Use password managers to avoid typing errors"
+                    },
+                    {
+                        question: "Forgotten Username",
+                        answer: "To retrieve your forgotten username:<br><br>1. Visit the username recovery page<br>2. Enter your registered email address<br>3. You'll receive an email with your username<br>4. If you no longer have access to that email, contact HR for verification<br><br><em>Username recovery emails are valid for 24 hours</em>"
+                    },
+                    {
+                        question: "Two-Factor Authentication",
+                        answer: "<strong>Enabling 2FA:</strong><br>1. Go to Security Settings in your profile<br>2. Click 'Enable Two-Factor Authentication'<br>3. Scan the QR code with your authenticator app (Google Authenticator, Authy)<br>4. Enter the 6-digit code to verify<br><br><strong>Disabling 2FA:</strong><br>Contact IT support with identity verification<br><br><strong>Lost Authenticator Device:</strong><br>Use backup codes or contact support for emergency access"
+                    }
+                ]
+            },
+            {
+                category: "CRM Features",
+                icon: "📊",
+                items: [
+                    {
+                        question: "Dashboard Issues",
+                        answer: "<strong>Missing Widgets:</strong><br>• Refresh the dashboard (F5)<br>• Check widget settings in dashboard customization<br>• Clear browser cache<br><br><strong>Slow Loading:</strong><br>• Check internet connection<br>• Try incognito/private browsing mode<br>• Contact support if issue persists for more than 2 hours"
+                    },
+                    {
+                        question: "Data Export",
+                        answer: "<strong>Exporting Reports:</strong><br>1. Navigate to Reports module<br>2. Select desired report type<br>3. Apply filters as needed<br>4. Click 'Export' button<br>5. Choose format (CSV, Excel, PDF)<br><br><strong>Export Limits:</strong><br>• CSV/Excel: Up to 50,000 rows<br>• PDF: Up to 100 pages<br>• Large exports may take several minutes"
+                    },
+                    {
+                        question: "Integrations",
+                        answer: "<strong>Available Integrations:</strong><br>• Email (Gmail, Outlook)<br>• Calendar (Google Calendar, Outlook Calendar)<br>• Document Storage (Google Drive, OneDrive)<br>• Communication (Slack, Microsoft Teams)<br><br><strong>Setup Process:</strong><br>1. Go to Settings → Integrations<br>2. Select desired service<br>3. Follow OAuth authentication steps<br>4. Configure integration settings<br><br><em>Some integrations require admin approval</em>"
+                    },
+                    {
+                        question: "Profile Update",
+                        answer: "<strong>Editable Information:</strong><br>• Personal: Name, phone, photo<br>• Professional: Department, title<br>• Preferences: Language, timezone, notifications<br><br><strong>Restricted Fields:</strong><br>• Email address (contact HR for changes)<br>• Employee ID<br>• Security permissions<br><br><strong>Update Process:</strong> Changes save automatically when moving to next field"
+                    }
+                ]
+            },
+            {
+                category: "Billing",
+                icon: "💰",
+                items: [
+                    {
+                        question: "View Invoices",
+                        answer: "<strong>Accessing Invoices:</strong><br>1. Go to Billing → Invoice History<br>2. Filter by date range or status<br>3. Click on invoice number to view details<br>4. Download PDF copy if needed<br><br><strong>Payment Methods:</strong><br>• Credit/Debit Cards (Visa, MasterCard, Amex)<br>• Bank Transfer<br>• Digital Wallets (PayPal)<br><br><strong>Billing Cycle:</strong> Monthly on the 1st, due by the 15th"
+                    },
+                    {
+                        question: "Billing Queries",
+                        answer: "<strong>Common Issues:</strong><br>• Disputed charges<br>• Payment failures<br>• Refund requests<br>• Subscription changes<br><br><strong>Resolution Process:</strong><br>1. Contact billing@techflowsolutions.com<br>2. Include invoice number and description<br>3. Allow 2-3 business days for response<br>4. Escalate to support if no response within timeframe<br><br><em>For urgent payment issues, call the support hotline</em>"
+                    }
+                ]
+            },
+            {
+                category: "Technical Setup",
+                icon: "⚙️",
+                items: [
+                    {
+                        question: "Software Installation",
+                        answer: "<strong>System Requirements:</strong><br>• Windows 10/11 or macOS 10.14+<br>• 4GB RAM minimum, 8GB recommended<br>• 2GB free disk space<br>• Stable internet connection<br><br><strong>Installation Steps:</strong><br>1. Download installer from employee portal<br>2. Run as administrator (Windows)<br>3. Follow setup wizard<br>4. Restart computer when prompted<br>5. Launch TechFlow CRM and login"
+                    },
+                    {
+                        question: "Browser Compatibility",
+                        answer: "<strong>Supported Browsers:</strong><br>• Chrome 90+ (Recommended)<br>• Firefox 85+<br>• Safari 14+<br>• Edge 90+<br><br><strong>Required Settings:</strong><br>• JavaScript enabled<br>• Cookies allowed<br>• Pop-ups enabled for techflowsolutions.com<br>• Cache cleared regularly<br><br><strong>Unsupported:</strong> Internet Explorer, older mobile browsers"
+                    },
+                    {
+                        question: "File Upload Errors",
+                        answer: "<strong>File Size Limits:</strong><br>• Images: 10MB max<br>• Documents: 50MB max<br>• Videos: 100MB max<br><br><strong>Supported Formats:</strong><br>• Images: JPG, PNG, GIF, WEBP<br>• Documents: PDF, DOC, DOCX, XLS, XLSX<br>• Presentations: PPT, PPTX<br><br><strong>Common Upload Errors:</strong><br>• 'File too large' - Compress or split file<br>• 'Invalid format' - Convert to supported format<br>• 'Upload failed' - Check internet connection"
+                    },
+                    {
+                        question: "Software Updates",
+                        answer: "<strong>Update Types:</strong><br>• <strong>Automatic:</strong> Security patches and minor fixes<br>• <strong>Manual:</strong> Major version updates<br>• <strong>Optional:</strong> New features and enhancements<br><br><strong>Update Process:</strong><br>1. Notification appears in system<br>2. Schedule update during non-peak hours<br>3. System may restart during update<br>4. Verify update completion in About section<br><br><strong>Release Notes:</strong> Always available in Help → Release Notes"
+                    }
+                ]
+            },
+            {
+                category: "Troubleshooting",
+                icon: "🔧",
+                items: [
+                    {
+                        question: "Login Issues",
+                        answer: "<strong>Troubleshooting Steps:</strong><br>1. Check internet connection<br>2. Verify username/password (case-sensitive)<br>3. Clear browser cache and cookies<br>4. Try incognito/private window<br>5. Test on different browser<br>6. Check if website is down (status.techflowsolutions.com)<br><br><strong>Error Messages:</strong><br>• 'Invalid credentials' - Reset password<br>• 'Account locked' - Wait 30 minutes or contact support<br>• 'Service unavailable' - System maintenance in progress"
+                    },
+                    {
+                        question: "Error Codes",
+                        answer: "<strong>Common Error Codes:</strong><br>• <strong>ERR-1001:</strong> Database connection failed - Refresh page<br>• <strong>ERR-1002:</strong> Session expired - Re-login required<br>• <strong>ERR-1003:</strong> Permission denied - Contact administrator<br>• <strong>ERR-1004:</strong> File upload failed - Check format and size<br>• <strong>ERR-1005:</strong> API rate limit exceeded - Wait 1 minute<br><br><strong>For undocumented errors:</strong> Take screenshot and contact support with timestamp"
+                    },
+                    {
+                        question: "System Timeout",
+                        answer: "<strong>Session Duration:</strong><br>• Standard users: 8 hours<br>• Admin users: 4 hours (security)<br>• Public terminals: 15 minutes<br><br><strong>Extending Sessions:</strong><br>• Move mouse or type periodically<br>• Enable 'Remember Me' on login (not recommended on shared devices)<br>• Use desktop app for longer sessions<br><br><strong>Timeout Warning:</strong> System warns 5 minutes before automatic logout"
+                    }
+                ]
+            }
+        ];
+
+        // Load tickets from localStorage or initialize with sample data
+        let tickets = JSON.parse(localStorage.getItem('techflowTickets')) || [
+            { "Ticket ID": "TKT001", "Description": "Cannot log in; invalid credentials error", "Category": "Login Issues", "Severity": "High", "Assigned Tier": "Tier 1", "Status": "Closed", "Notes": "User advised to reset password", "Created": "2024-01-15" },
+            { "Ticket ID": "TKT002", "Description": "Reporting module inaccessible", "Category": "Permissions", "Severity": "Medium", "Assigned Tier": "Tier 2", "Status": "Open", "Notes": "Role updated by admin", "Created": "2024-01-15" },
+            { "Ticket ID": "TKT003", "Description": "Laptop battery not charging", "Category": "Hardware", "Severity": "High", "Assigned Tier": "Tier 1", "Status": "In Progress", "Notes": "Replacement requested from IT", "Created": "2024-01-15" },
+            { "Ticket ID": "TKT004", "Description": "CRM crashes on invoice generation", "Category": "Software", "Severity": "Critical", "Assigned Tier": "Tier 3", "Status": "Open", "Notes": "Bug logged in development tracker", "Created": "2024-01-15" },
+            { "Ticket ID": "TKT005", "Description": "Cannot connect to VPN", "Category": "Connectivity", "Severity": "Medium", "Assigned Tier": "Tier 2", "Status": "Open", "Notes": "Network team investigating", "Created": "2024-01-15" }
+        ];
+
+        let currentTicketId = null;
+        let currentUser = '';
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                // Accept any username/password combination
+                currentUser = username;
+                document.getElementById('currentUser').textContent = username;
+                
+                // Switch to dashboard
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                
+                // Initialize dashboard
+                loadTicketsFromStorage();
+                updateStats();
+                displayTickets(tickets);
+                displayFAQs();
+            }
+        });
+
+        // Logout functionality
+        function logout() {
+            currentUser = '';
+            document.getElementById('loginForm').reset();
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        // Save tickets to localStorage
+        function saveTicketsToStorage() {
+            localStorage.setItem('techflowTickets', JSON.stringify(tickets));
+        }
+
+        // Load tickets from localStorage
+        function loadTicketsFromStorage() {
+            const saved = localStorage.getItem('techflowTickets');
+            if (saved) {
+                tickets = JSON.parse(saved);
+            }
+        }
+
+        // Tab switching function
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            if (tabName === 'dashboard-tab') {
+                updateStats();
+                displayTickets(tickets);
+            } else if (tabName === 'reports') {
+                updateReports();
+            } else if (tabName === 'faq') {
+                displayFAQs();
+            }
+        }
+
+        // Display FAQs function
+        function displayFAQs(filteredData = null) {
+            const container = document.getElementById('faqContainer');
+            const dataToDisplay = filteredData || faqData;
+            
+            if (dataToDisplay.length === 0) {
+                container.innerHTML = '<div class="faq-no-results">No FAQs found matching your search. Try different keywords or contact support.</div>';
+                return;
+            }
+            
+            let html = '';
+            dataToDisplay.forEach(category => {
+                html += `
+                    <div class="faq-category">
+                        <div class="faq-category-header">
+                            <h3>${category.icon} ${category.category}</h3>
+                        </div>
+                        <div class="faq-items">
+                `;
+                
+                category.items.forEach(item => {
+                    html += `
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                ${item.question}
+                            </div>
+                            <div class="faq-answer">
+                                <div class="faq-answer-content">
+                                    ${item.answer}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Toggle FAQ item
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) faqItem.classList.add('active');
+        }
+
+        // Search FAQs
+        function searchFAQs() {
+            const searchTerm = document.getElementById('faqSearch').value.toLowerCase().trim();
+            if (searchTerm === '') return displayFAQs();
+            
+            const filteredData = faqData.map(category => ({
+                ...category,
+                items: category.items.filter(item => 
+                    item.question.toLowerCase().includes(searchTerm) ||
+                    item.answer.toLowerCase().includes(searchTerm) ||
+                    category.category.toLowerCase().includes(searchTerm)
+                )
+            })).filter(category => category.items.length > 0);
+            
+            displayFAQs(filteredData);
+        }
+
+        // Display tickets function
+        function displayTickets(ticketList) {
+            const container = document.getElementById('ticketContainer');
+            container.innerHTML = '';
+            
+            if (ticketList.length === 0) {
+                container.innerHTML = '<div class="ticket"><p>No tickets found matching your filter.</p></div>';
+                return;
+            }
+            
+            ticketList.forEach(ticket => {
+                const ticketDiv = document.createElement('div');
+                ticketDiv.className = `ticket ${ticket.Severity.toLowerCase()}`;
+                
+                const severityBadge = `<span class="severity-badge ${ticket.Severity.toLowerCase()}-badge">${ticket.Severity.toUpperCase()}</span>`;
+                const statusBadge = `<span class="status-badge status-${ticket.Status.toLowerCase().replace(' ', '-')}">${ticket.Status}</span>`;
+                
+                ticketDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <h3>${ticket["Ticket ID"]} - ${ticket.Description}</h3>
+                        <div>${severityBadge} ${statusBadge}</div>
+                    </div>
+                    <p><strong>Category:</strong> ${ticket.Category} | 
+                       <strong>Assigned:</strong> ${ticket["Assigned Tier"]} | 
+                       <strong>Created:</strong> ${ticket.Created || new Date().toLocaleDateString()}</p>
+                    <p><strong>Notes:</strong> ${ticket.Notes}</p>
+                    <div class="action-buttons">
+                        <button onclick="updateTicketStatus('${ticket["Ticket ID"]}', 'In Progress')" class="btn btn-info btn-sm">Start Work</button>
+                        <button onclick="updateTicketStatus('${ticket["Ticket ID"]}', 'Closed')" class="btn btn-success btn-sm">Resolve</button>
+                        <button onclick="escalateTicket('${ticket["Ticket ID"]}')" class="btn btn-warning btn-sm">Escalate</button>
+                        <button onclick="showNoteModal('${ticket["Ticket ID"]}')" class="btn btn-sm">Add Note</button>
+                        <button onclick="deleteTicket('${ticket["Ticket ID"]}')" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                `;
+                container.appendChild(ticketDiv);
+            });
+        }
+
+        // Update ticket status
+        function updateTicketStatus(ticketId, newStatus) {
+            const ticket = tickets.find(t => t["Ticket ID"] === ticketId);
+            if (ticket) {
+                ticket.Status = newStatus;
+                if (newStatus === 'Closed') {
+                    ticket.Notes += ' (Resolved on ' + new Date().toLocaleDateString() + ')';
+                }
+                saveTicketsToStorage();
+                updateStats();
+                displayTickets(tickets);
+                alert(`Ticket ${ticketId} status updated to ${newStatus}`);
+            }
+        }
+
+        // Escalate ticket
+        function escalateTicket(ticketId) {
+            const ticket = tickets.find(t => t["Ticket ID"] === ticketId);
+            if (ticket) {
+                const currentTier = parseInt(ticket["Assigned Tier"].replace('Tier ', ''));
+                if (currentTier < 3) {
+                    ticket["Assigned Tier"] = `Tier ${currentTier + 1}`;
+                    ticket.Notes += ` (Escalated to ${ticket["Assigned Tier"]} on ${new Date().toLocaleDateString()})`;
+                    saveTicketsToStorage();
+                    displayTickets(tickets);
+                    alert(`Ticket ${ticketId} escalated to ${ticket["Assigned Tier"]}`);
+                } else {
+                    alert('Ticket is already at the highest escalation level');
+                }
+            }
+        }
+
+        // Show note modal
+        function showNoteModal(ticketId) {
+            currentTicketId = ticketId;
+            document.getElementById('noteModal').style.display = 'block';
+        }
+
+        // Save note
+        function saveNote() {
+            if (currentTicketId) {
+                const ticket = tickets.find(t => t["Ticket ID"] === currentTicketId);
+                const noteText = document.getElementById('noteText').value;
+                if (ticket && noteText) {
+                    ticket.Notes += `\n[${new Date().toLocaleString()}]: ${noteText}`;
+                    saveTicketsToStorage();
+                    displayTickets(tickets);
+                    closeModal('noteModal');
+                    document.getElementById('noteText').value = '';
+                    alert('Note added successfully');
+                }
+            }
+        }
+
+        // Delete ticket
+        function deleteTicket(ticketId) {
+            if (confirm('Are you sure you want to delete this ticket?')) {
+                tickets = tickets.filter(t => t["Ticket ID"] !== ticketId);
+                saveTicketsToStorage();
+                updateStats();
+                displayTickets(tickets);
+                alert('Ticket deleted successfully');
+            }
+        }
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showImportModal() {
+            document.getElementById('importModal').style.display = 'block';
+        }
+
+        // Export to CSV
+        function exportTicketsToCSV() {
+            const headers = ['Ticket ID', 'Description', 'Category', 'Severity', 'Assigned Tier', 'Status', 'Notes', 'Created'];
+            const csvContent = [
+                headers.join(','),
+                ...tickets.map(ticket => headers.map(header => {
+                    const value = ticket[header] || '';
+                    return `"${value.toString().replace(/"/g, '""')}"`;
+                }).join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `techflow_tickets_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            alert('Tickets exported to CSV successfully!');
+        }
+
+        // Import from CSV
+        function importTicketsFromCSV() {
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a CSV file');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const csv = e.target.result;
+                    const lines = csv.split('\n');
+                    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                    
+                    const importedTickets = lines.slice(1).filter(line => line.trim()).map(line => {
+                        const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                        const ticket = {};
+                        headers.forEach((header, index) => {
+                            ticket[header] = values[index] || '';
+                        });
+                        if (!ticket.Created) ticket.Created = new Date().toISOString().split('T')[0];
+                        return ticket;
+                    });
+                    
+                    tickets.push(...importedTickets);
+                    saveTicketsToStorage();
+                    updateStats();
+                    displayTickets(tickets);
+                    closeModal('importModal');
+                    fileInput.value = '';
+                    alert(`Successfully imported ${importedTickets.length} tickets!`);
+                } catch (error) {
+                    alert('Error importing CSV file. Please check the format.');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Export reports to PDF (simulated)
+        function exportReportsToPDF() {
+            alert('PDF export functionality would be implemented with a PDF library like jsPDF. For now, use CSV export.');
+        }
+
+        // Filter and search functions
+        function filterTickets(severity) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            displayTickets(severity === 'all' ? tickets : tickets.filter(ticket => ticket.Severity === severity));
+        }
+
+        function filterByStatus(status) {
+            displayTickets(status === 'all' ? tickets : tickets.filter(ticket => ticket.Status === status));
+        }
+
+        function searchTickets() {
+            const searchTerm = document.getElementById('searchTickets').value.toLowerCase();
+            if (!searchTerm) return displayTickets(tickets);
+            
+            const filtered = tickets.filter(ticket => 
+                Object.values(ticket).some(value => 
+                    value.toString().toLowerCase().includes(searchTerm)
+                )
+            );
+            displayTickets(filtered);
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = tickets.length;
+            const open = tickets.filter(t => t.Status !== 'Closed').length;
+            const critical = tickets.filter(t => t.Severity === 'Critical' && t.Status !== 'Closed').length;
+            const resolved = tickets.filter(t => t.Status === 'Closed').length;
+            const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+            
+            document.getElementById('totalTickets').textContent = total;
+            document.getElementById('openTickets').textContent = open;
+            document.getElementById('criticalTickets').textContent = critical;
+            document.getElementById('resolutionRate').textContent = resolutionRate + '%';
+        }
+
+        // Update reports
+        function updateReports() {
+            const loginCount = tickets.filter(t => t.Category === 'Login Issues').length;
+            const softwareCount = tickets.filter(t => t.Category === 'Software').length;
+            const hardwareCount = tickets.filter(t => t.Category === 'Hardware').length;
+            const connectivityCount = tickets.filter(t => t.Category === 'Connectivity').length;
+            
+            document.getElementById('loginTickets').textContent = loginCount;
+            document.getElementById('softwareTickets').textContent = softwareCount;
+            document.getElementById('hardwareTickets').textContent = hardwareCount;
+            document.getElementById('connectivityTickets').textContent = connectivityCount;
+            
+            const resolvedCount = tickets.filter(t => t.Status === 'Closed').length;
+            const resolutionRate = tickets.length > 0 ? (resolvedCount / tickets.length) * 100 : 0;
+            
+            document.getElementById('resolutionBar').style.width = resolutionRate + '%';
+            document.getElementById('resolutionText').textContent = `Resolution Rate: ${resolutionRate.toFixed(1)}% (${resolvedCount}/${tickets.length} tickets resolved)`;
+        }
+
+        // Form submission handler
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newTicket = {
+                "Ticket ID": `TKT-${1000 + tickets.length + 1}`,
+                "Description": document.getElementById('description').value,
+                "Category": document.getElementById('category').value,
+                "Severity": document.getElementById('severity').value,
+                "Assigned Tier": "Tier 1",
+                "Status": "Open",
+                "Notes": document.getElementById('notes').value || "Awaiting triage",
+                "Created": new Date().toISOString().split('T')[0]
+            };
+            
+            tickets.push(newTicket);
+            saveTicketsToStorage();
+            this.reset();
+            switchTab('dashboard-tab');
+            updateStats();
+            displayTickets(tickets);
+            alert(`Ticket ${newTicket["Ticket ID"]} created successfully!`);
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
